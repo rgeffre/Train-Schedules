@@ -48,24 +48,22 @@ function clear() {
 
 function appendToTable(name, destination, frequency, arrival, away) {
   let html = `<tr>
-        <td class="emp-name">${name.toLowerCase()}</td>
-        <td class="emp-role">${role.toLowerCase()}</td>
-        <td class="emp-start">${start.replace(/-/g, '/')}</td>
-        <td class="emp-months">${months} mo.</td>
-        <td class="emp-rate">$ ${rate}/month</td>
-        <td class="emp-bill">$ ${bill}</td>
+        <td class="name">${name.toLowerCase()}</td>
+        <td class="destination">${role.toLowerCase()}</td>
+        <td class="frequency">${start.replace(/-/g, '/')}</td>
+        <td class="arrival">${arrival}</td>
+        <td class="away">$ </td>
       </tr>`;
   $('.table').append(html);
 }
 
 function addHtml(name, role, start, months, rate, bill) {
   let html = `<tr>
-        <td class="emp-name">${name.toLowerCase()}</td>
-        <td class="emp-role">${role.toLowerCase()}</td>
-        <td class="emp-start">${start.replace(/-/g, '/')}</td>
-        <td class="emp-months">${months} mo.</td>
-        <td class="emp-rate">$ ${rate}/month</td>
-        <td class="emp-bill">$ ${bill}</td>
+        <td class="name">${name.toLowerCase()}</td>
+        <td class="destination">${role.toLowerCase()}</td>
+        <td class="frequency">${frequency.toLowerCase()}</td>
+        <td class="arrival</td>
+        <td class="away"></td>
       </tr>`;
   return html;
 }
@@ -73,21 +71,21 @@ function addHtml(name, role, start, months, rate, bill) {
 $('#btn-submit').on('click', (event) => {
   event.preventDefault();
   let name = $('#name').val().trim();
-  let role = $('#role').val().trim();
-  let start = $('#start-date').val().trim();
-  let rate = $('#monthly-rate').val().trim();
-  let months = getTime(start);
-  let bill;
-  if (name && role && start && rate) {
-    pushFirebase(name, role, start, rate);
+  let destination = $('#destination').val().trim();
+  let frequency = $('#frequency').val().trim();
+  let arrival = $('#arrival').val().trim();
+  let away = //moment calcs;
+
+  if (name && destination && frequency && arrival) {
+    pushFirebase(name, destination, frequency, arrival);
     db.limitToLast(1).on('child_added', (snap) => {
       name = snap.val().name;
-      rate = snap.val().rate;
-      role = snap.val().role;
-      start = snap.val().start;
-      bill = months * rate;
+      destination = snap.val().destination;
+      frequency = snap.val().frequency;
+      arrival = snap.val().arrival;
+      away = snap.val().away;
     });
-    appendToTable(name, role, start, months, rate, bill);
+    appendToTable(name, destination, frequency, arrival, away);
     clear();
   } else {
     alert('please fill in all inputs')
