@@ -1,0 +1,33 @@
+body {
+	margin: 20px 0;
+}
+
+.jumbotron,
+.panel-heading,
+.btn-primary {
+	background-color: #36942F;
+}
+
+tbody {
+	border: none !important;
+}
+
+tr,
+tr th,
+tr td {
+	border: none !important;
+}
+
+tr:nth-child(even) {
+	background-color: #36942F;
+}
+
+.jumbotron h1,
+.jumbotron p {
+	text-align: center;
+}
+
+.emp-role:first-letter,
+.emp-name:first-letter {
+	text-transform: capitalize;
+}
