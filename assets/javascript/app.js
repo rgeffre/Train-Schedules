@@ -13,68 +13,65 @@ firebase.initializeApp(config);
 const database = firebase.database();
 db = database.ref('/train-db');
 
-//Initialize values
-var = firstTrainTime
-var = tfrequency
 //On initial load of the database get a snapshot of the current data
 //Push Form data field names to database
-function pushFirebase(name, destination, first-train-time, frequency) {
+function pushFirebase(name, destination, firstTrainTime, frequency) {
   db.push({
     name,
     destination,
-    first-train-time,
+    firstTrainTime,
     frequency
   })
 }
-$.get('https://train-db.firebaseio.com/', (res) => {
+$.get('https://train-db.firebaseio.com/train-db.json', (res) => {
   let html ='';
   for(var prop in res){
     let name = res[prop].name;
-    let destination = res[prop].;
+    let destination = res[prop].destination;
     let frequency = res[prop].frequency;
-    let arrival = res[prop].;
-    let away = //see moment calcs
+    let arrival = res[prop].arrival;
+    let away = res[prop].away;
     html += addHtml(name,destination,frequency,arrival,away)
   }
   $('.table').append(html);
 });
-
+//clear any values from form
 function clear() {
   $('#name').val('');
   $('#destination').val('');
-  $('#first-train-time').val('');
+  $('#firstTrainTime').val('');
   $('#frequency').val('');
 }
-
+//Append data to table
 function appendToTable(name, destination, frequency, arrival, away) {
   let html = `<tr>
         <td class="name">${name.toLowerCase()}</td>
-        <td class="destination">${role.toLowerCase()}</td>
-        <td class="frequency">${start.replace(/-/g, '/')}</td>
+        <td class="destination">${destination.toLowerCase()}</td>
+        <td class="frequency">${frequency.replace(/-/g, '/')}</td>
         <td class="arrival">${arrival}</td>
-        <td class="away">$ </td>
+        <td class="away">${away}</td>
       </tr>`;
   $('.table').append(html);
 }
-
-function addHtml(name, role, start, months, rate, bill) {
+//create table
+function addHtml(name, destination, frequency, arrival, away) {
   let html = `<tr>
         <td class="name">${name.toLowerCase()}</td>
-        <td class="destination">${role.toLowerCase()}</td>
+        <td class="destination">${destination.toLowerCase()}</td>
         <td class="frequency">${frequency.toLowerCase()}</td>
-        <td class="arrival</td>
-        <td class="away"></td>
+        <td class="arrival>${arrival.toLowerCase()}</td> /*${"MINUTES TILL TRAIN: " + tMinutesTillTrain}</td> */
+        <td class="away">${away.toLowerCase()}</td> /*${"Arrival Time: " + moment(nextTrain).format("hh:mm")} */
       </tr>`;
   return html;
 }
-
+//create event listeners for submit button
 $('#btn-submit').on('click', (event) => {
   event.preventDefault();
   let name = $('#name').val().trim();
   let destination = $('#destination').val().trim();
   let frequency = $('#frequency').val().trim();
-  let arrival = $('#arrival').val().trim();
-  let away = //moment calcs;
+//  let arrival = $("Arrival Time: " + moment(nextTrain).format("hh:mm"));
+//  let away = $("MINUTES TILL TRAIN: " + tMinutesTillTrain);
 
   if (name && destination && frequency && arrival) {
     pushFirebase(name, destination, frequency, arrival);
@@ -82,8 +79,8 @@ $('#btn-submit').on('click', (event) => {
       name = snap.val().name;
       destination = snap.val().destination;
       frequency = snap.val().frequency;
-      arrival = snap.val().arrival;
-      away = snap.val().away;
+    //  arrival = "Arrival Time: " + moment(nextTrain).format("hh:mm");
+     // away = "MINUTES TILL TRAIN: " + tMinutesTillTrain
     });
     appendToTable(name, destination, frequency, arrival, away);
     clear();
@@ -91,14 +88,13 @@ $('#btn-submit').on('click', (event) => {
     alert('please fill in all inputs')
   }
 });
-//Pass form values to table
 //Calculate how many minutes away the train is based on current time, frequency and first time the train left the station
 ////Pass required information from form entries to calculations
 // Assumptions
-var tFrequency = 0; //pass frequency field value to this variable
+/*var tFrequency = 0; //pass frequency field value to this variable
 
 // Time is 3:30 AM
-var firstTime = "03:30"; //pass firstTrainTime field value to this variable
+var firstTime = $('#firstTrainTime'); //pass firstTrainTime field value to this variable
 
 // First Time (pushed back 1 year to make sure it comes before current time)
 var firstTimeConverted = moment(firstTime, "hh:mm").subtract(1, "years");
@@ -122,4 +118,4 @@ console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
 
 // Next Train
 var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm")); */
